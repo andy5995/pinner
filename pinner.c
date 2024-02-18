@@ -145,18 +145,23 @@ is_duplicate(const gchar* file_name)
 static void
 pin_document_key_cb(guint key_id)
 {
+  (void)key_id;
+
   pin_activate_cb(NULL, NULL);
 }
 
 static void
 unpin_document_key_cb(guint key_id)
 {
+  (void)key_id;
   unpin_activate_cb(NULL, NULL);
 }
 
 static void
 pin_activate_cb(GtkMenuItem* menuitem, gpointer pdata)
 {
+  (void)menuitem;
+
   gchar* ptr_file_name = NULL;
   if (pdata == NULL) {
     GeanyDocument* doc = document_get_current();
@@ -205,6 +210,9 @@ pin_activate_cb(GtkMenuItem* menuitem, gpointer pdata)
 static void
 unpin_activate_cb(GtkMenuItem* menuitem, gpointer pdata)
 {
+  (void)pdata;
+  (void)menuitem;
+
   GeanyDocument* doc = document_get_current();
   if (doc == NULL)
     return;
@@ -219,8 +227,10 @@ unpin_activate_cb(GtkMenuItem* menuitem, gpointer pdata)
 }
 
 static gboolean
-on_button_press_cb(GtkWidget* widget, GdkEventButton* event, gpointer data)
+on_button_press_cb(GtkWidget* widget, GdkEventButton* event, gpointer pdata)
 {
+  (void)pdata;
+
   if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY) {
     // Check if the clicked widget is an event box
     if (GTK_IS_EVENT_BOX(widget)) {
@@ -255,6 +265,10 @@ on_button_press_cb(GtkWidget* widget, GdkEventButton* event, gpointer data)
 static gboolean
 pin_init(GeanyPlugin* plugin, gpointer pdata)
 {
+  // Keep the function declaration as-is for now, but suppress the compiler
+  // warning that the value is not used.
+  (void)pdata;
+
   GtkWidget** tools_item =
     g_new0(GtkWidget*,
            3); // Allocate memory for 3 pointers (2 items + NULL terminator)
@@ -317,6 +331,8 @@ pin_init(GeanyPlugin* plugin, gpointer pdata)
 static void
 pin_cleanup(GeanyPlugin* plugin, gpointer pdata)
 {
+  (void)plugin;
+
   if (doc_to_widget_map != NULL) {
     g_hash_table_destroy(doc_to_widget_map);
     doc_to_widget_map = NULL;

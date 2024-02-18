@@ -58,6 +58,31 @@ static gint page_number = 0;
 static GHashTable* doc_to_widget_map = NULL;
 
 static void
+init_css(void)
+{
+  GtkCssProvider* provider = gtk_css_provider_new();
+  gtk_css_provider_load_from_data(
+    provider,
+    "label.highlight { background-color: #007bff; color: #ffffff; }",
+    -1,
+    NULL);
+  gtk_style_context_add_provider_for_screen(
+    gdk_screen_get_default(),
+    GTK_STYLE_PROVIDER(provider),
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  g_object_unref(provider);
+}
+
+static gboolean
+remove_highlight(gpointer data)
+{
+  GtkWidget* label = GTK_WIDGET(data);
+  GtkStyleContext* context = gtk_widget_get_style_context(label);
+  gtk_style_context_remove_class(context, "highlight");
+  return G_SOURCE_REMOVE; // Same as returning FALSE
+}
+
+static void
 destroy_widget(gpointer pdata)
 {
   GtkWidget* widget = (GtkWidget*)pdata;
@@ -252,6 +277,14 @@ on_button_press_cb(GtkWidget* widget, GdkEventButton* event, gpointer pdata)
       if (GTK_IS_LABEL(label)) {
         const gchar* file_name = gtk_label_get_text(GTK_LABEL(label));
         document_open_file(file_name, FALSE, NULL, NULL);
+
+        // Highlight the label
+        GtkStyleContext* context = gtk_widget_get_style_context(label);
+        gtk_style_context_add_class(context, "highlight");
+
+        // Set a timeout to remove the highlight after 1 second (1000
+        // milliseconds)
+        g_timeout_add(500, remove_highlight, label);
       }
     }
   } else if (event->type == GDK_BUTTON_PRESS &&
@@ -281,6 +314,8 @@ pin_init(GeanyPlugin* plugin, gpointer pdata)
   // Keep the function declaration as-is for now, but suppress the compiler
   // warning that the value is not used.
   (void)pdata;
+
+  init_css();
 
   GtkWidget** tools_item =
     g_new0(GtkWidget*,

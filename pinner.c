@@ -64,7 +64,7 @@ destroy_widget(gpointer pdata)
   gtk_widget_destroy(widget);
 }
 
-void
+static void
 clear_pinned_documents(void)
 {
   if (doc_to_widget_map != NULL) {
@@ -167,28 +167,27 @@ static void
 pin_activate_cb(GtkMenuItem* menuitem, gpointer pdata)
 {
   (void)menuitem;
+  (void)pdata;
 
-  gchar* ptr_file_name = NULL;
-  if (pdata == NULL) {
-    GeanyDocument* doc = document_get_current();
-    if (doc == NULL)
-      return;
-    else
-      ptr_file_name = doc->file_name;
-  } else {
-    ptr_file_name = pdata;
-  }
+  GeanyDocument* doc = document_get_current();
+  if (!(doc && doc->is_valid))
+    return;
 
-  if (is_duplicate(ptr_file_name))
+  // See https://github.com/geany/geany/pull/3770 for more info on
+  // Why this check is necessary even after checking if doc == NULL
+  if (doc->file_name == NULL)
+    return;
+
+  if (is_duplicate(doc->file_name))
     return;
 
   /* This must be freed when nodes are removed from the list */
-  gchar* tmp_file_name = g_strdup(ptr_file_name);
+  gchar* tmp_file_name = g_strdup(doc->file_name);
 
   GtkWidget* event_box = gtk_event_box_new();
   g_hash_table_insert(doc_to_widget_map, tmp_file_name, event_box);
 
-  GtkWidget* label = gtk_label_new(ptr_file_name);
+  GtkWidget* label = gtk_label_new(doc->file_name);
   // Enable ellipsizing at the start of the filename
   gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_START);
   gtk_label_set_max_width_chars(GTK_LABEL(label), 30);
@@ -216,14 +215,22 @@ pin_activate_cb(GtkMenuItem* menuitem, gpointer pdata)
 static void
 unpin_activate_cb(GtkMenuItem* menuitem, gpointer pdata)
 {
-  (void)pdata;
   (void)menuitem;
 
   GeanyDocument* doc = document_get_current();
-  if (doc == NULL)
-    return;
+  gchar* ptr_file_name = pdata;
 
-  gboolean removed = g_hash_table_remove(doc_to_widget_map, doc->file_name);
+  if (!pdata) {
+    if (!(doc && doc->is_valid))
+      return;
+
+    if (doc->file_name == NULL)
+      return;
+    else
+      ptr_file_name = doc->file_name;
+  }
+
+  gboolean removed = g_hash_table_remove(doc_to_widget_map, ptr_file_name);
   // If removed
   if (!removed) {
     // Handle the case where the document was not found in the map

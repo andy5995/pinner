@@ -1,0 +1,49 @@
+name: "CodeQL Analysis"
+
+on:
+  push:
+    branches: [ trunk ]
+    paths:
+      - '**.c'
+  pull_request:
+    branches: [ trunk ]
+    paths:
+      - '**.c'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        cache: 'pip'
+
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y libgeany-dev
+        pip install meson ninja
+
+    - name: Build Pinner
+      run: |
+        meson setup builddir
+        ninja -C builddir
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: 'cpp' # Use 'cpp' for C code analysis
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3

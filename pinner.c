@@ -32,8 +32,8 @@ enum
   DO_UNPIN
 };
 
-#ifdef PINNER_VERSION
-#include "config"
+#ifndef PINNER_VERSION
+#include "config.h"
 #else
 #define PINNER_VERSION "git"
 #endif

@@ -336,7 +336,7 @@ geany_load_module(GeanyPlugin* plugin)
 {
   plugin->info->name = "Pinner";
   plugin->info->description = "Pin a document";
-  plugin->info->version = "0.1.0.999";
+  plugin->info->version = "0.1.0";
   plugin->info->author = "Andy Alt <arch_stanton5995@proton.me>";
 
   plugin->funcs->init = pin_init;

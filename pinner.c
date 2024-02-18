@@ -32,6 +32,12 @@ enum
   DO_UNPIN
 };
 
+#ifdef PINNER_VERSION
+#include "config"
+#else
+#define PINNER_VERSION "git"
+#endif
+
 static void
 destroy_widget(gpointer pdata);
 static void
@@ -352,7 +358,7 @@ geany_load_module(GeanyPlugin* plugin)
 {
   plugin->info->name = "Pinner";
   plugin->info->description = "Pin a document";
-  plugin->info->version = "0.1.0";
+  plugin->info->version = PINNER_VERSION;
   plugin->info->author = "Andy Alt <arch_stanton5995@proton.me>";
 
   plugin->funcs->init = pin_init;

@@ -1,7 +1,7 @@
 project(
   'pinner',
   ['c'],
-  version: '0.1.0',
+  version: '0.1.1.999',
   meson_version : '>= 0.50.0',
   default_options: [
     'warning_level=2',
@@ -24,6 +24,10 @@ host_sys = host_machine.system()
 platform_is_windows = (host_sys == 'windows')
 
 add_project_arguments(cc.get_supported_arguments(extra_flags), language: 'c')
+
+conf = configuration_data()
+conf.set_quoted('PINNER_VERSION', meson.project_version())
+config_h = configure_file(output : 'config.h', configuration : conf)
 
 geany_dep = dependency('geany')
 

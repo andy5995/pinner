@@ -5,10 +5,12 @@ on:
     branches: [ trunk ]
     paths:
       - '**.c'
+      - '**codeql.yml'
   pull_request:
     branches: [ trunk ]
     paths:
       - '**.c'
+      - '**codeql.yml'
 
 jobs:
   analyze:
@@ -21,29 +23,28 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
-        cache: 'pip'
 
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt install -y libgeany-dev
+        sudo apt install -y geany libgtk-3-dev
         pip install meson ninja
-
-    - name: Build Pinner
-      run: |
-        meson setup builddir
-        ninja -C builddir
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
         languages: 'cpp' # Use 'cpp' for C code analysis
+
+    - name: Build Pinner
+      run: |
+        meson setup builddir
+        ninja -C builddir
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3

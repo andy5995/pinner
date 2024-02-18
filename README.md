@@ -1,3 +1,6 @@
+[![Linux](https://github.com/andy5995/pinner/actions/workflows/linux.yml/badge.svg)](https://github.com/andy5995/pinner/actions/workflows/linux.yml)
+[![CodeQL Analysis](https://github.com/andy5995/pinner/actions/workflows/codeql.yml/badge.svg)](https://github.com/andy5995/pinner/actions/workflows/codeql.yml)
+
 # Pinner
 
 A [geany plugin](https://www.geany.org/support/plugins/) that enables pinning

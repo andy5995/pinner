@@ -3,7 +3,7 @@
 
 # Pinner
 
-A [geany plugin](https://www.geany.org/support/plugins/) that enables pinning
+A [Geany plugin](https://www.geany.org/support/plugins/) that enables pinning
 documents to a sidebar tab.
 
 This will add two items to the Geany tools menu:

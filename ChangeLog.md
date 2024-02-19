@@ -4,3 +4,5 @@
 
 * Fix crash when an attempt to pin or unpin an 'untitled' document is made
 (See [Geany PR 3770](https://github.com/geany/geany/pull/3770) for details)
+
+* Release v0.1.1

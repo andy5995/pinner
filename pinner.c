@@ -399,7 +399,7 @@ void
 geany_load_module(GeanyPlugin* plugin)
 {
   plugin->info->name = "Pinner";
-  plugin->info->description = "Pin a document";
+  plugin->info->description = "Enables pinning documents to a sidebar tab";
   plugin->info->version = PINNER_VERSION;
   plugin->info->author = "Andy Alt <arch_stanton5995@proton.me>";
 

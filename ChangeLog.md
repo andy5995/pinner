@@ -1,3 +1,8 @@
+2024-02-19
+
+* Expand documentation and add link to demo video
+
+
 2024-02-18
 
 * Briefly highlight when a pinned item is clicked on

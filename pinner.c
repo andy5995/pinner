@@ -195,9 +195,8 @@ pin_activate_cb(GtkMenuItem* menuitem, gpointer pdata)
   (void)pdata;
 
   GeanyDocument* doc = document_get_current();
-  if (!(doc && doc->is_valid))
+  if (!DOC_VALID(doc))
     return;
-
   // See https://github.com/geany/geany/pull/3770 for more info on
   // Why this check is necessary even after checking if doc == NULL
   if (doc->file_name == NULL)

@@ -245,7 +245,7 @@ unpin_activate_cb(GtkMenuItem* menuitem, gpointer pdata)
   gchar* ptr_file_name = pdata;
 
   if (!pdata) {
-    if (!(doc && doc->is_valid))
+    if (!DOC_VALID(doc))
       return;
 
     if (doc->file_name == NULL)

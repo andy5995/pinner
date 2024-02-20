@@ -1,3 +1,9 @@
+2024-02-20
+
+* Fix install path in meson.build
+
+* release v0.1.2
+
 2024-02-19
 
 * Expand documentation and add link to demo video

@@ -1,7 +1,7 @@
 project(
   'pinner',
   ['c'],
-  version: '0.1.1',
+  version: '0.1.2',
   meson_version : '>= 0.50.0',
   default_options: [
     'warning_level=2',
@@ -37,5 +37,5 @@ shared_module(
   dependencies: [geany_dep],
   install: true,
   name_prefix: '',
-  install_dir : join_paths(get_option('prefix'), 'lib', 'geany')
+  install_dir : join_paths(get_option('prefix'), get_option('libdir'), 'geany')
   )

@@ -10,8 +10,6 @@ documents, as it enables them to add selected filenames to a list for easy
 access. Users can then simply click on a filename in the list to switch to
 that document.
 
-A demonstration video is at https://www.twitch.tv/videos/2067406964
-
 The plugin will add two items to the Geany tools menu:
 
     Pin Document
